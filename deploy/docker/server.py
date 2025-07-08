@@ -513,7 +513,7 @@ async def scripts_run(
         raise HTTPException(400, "No script found with that name. Check available in /scripts")
 
     try:
-        result = await subprocess.run(['python', script_path], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        result = subprocess.run(['python', script_path], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output = result.stdout.decode('utf-8')
         error_output = result.stderr.decode('utf-8')
         

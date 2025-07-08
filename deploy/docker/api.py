@@ -407,6 +407,12 @@ async def handle_crawl_request(
         browser_config = BrowserConfig.load(browser_config)
         crawler_config = CrawlerRunConfig.load(crawler_config)
 
+        if browser_config.storage_state and not os.path.isfile(browser_config.storage_state):
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"File {browser_config.storage_state} not found."
+            )
+
         dispatcher = MemoryAdaptiveDispatcher(
             memory_threshold_percent=config["crawler"]["memory_threshold_percent"],
             rate_limiter=RateLimiter(
